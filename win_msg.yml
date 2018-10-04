@@ -1,0 +1,7 @@
+---
+- name: Diaplay message
+  hosts: I1
+  tasks:
+    - win_msg:
+        display_seconds: 4
+        msg: Automated upgrade about to start.  Please save your work and log off before {{ deployment_start_time }}

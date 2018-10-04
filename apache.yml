@@ -1,0 +1,38 @@
+---
+- hosts: servers
+  become: yes
+  tasks:
+    - name: set timezone
+      command: /usr/bin/timedatectl set-timezone  Europe/Warsaw
+    - name: add mc to repository
+      command: apt-add-repository "deb http://us.archive.ubuntu.com/ubuntu xenial main universe"
+    - name: apt update
+      command: apt update
+    - name: install mc
+      apt: name=mc update_cache=yes state=latest
+    - name: install apache2
+      apt: name=apache2 update_cache=yes state=latest
+    - name: enabled mod_rewrite
+      apache2_module: name=rewrite state=present
+    - name: enabled php
+      apt: name=php state=latest
+    - name: install packages
+      apt: pkg={{ item }} update_cache=yes state=present
+      with_items:
+      - git
+      - mcrypt
+      - nginx
+      - php-pear
+      - php-curl
+      - php-fpm
+      - php-dev
+      - php-zip
+      - php-mcrypt
+      - php-mysql
+      - php-xmlrpc
+      - php-gd
+      - php-mbstring
+      - php-xml
+      - libapache2-mod-php
+
+
