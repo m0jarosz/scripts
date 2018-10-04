@@ -1,0 +1,12 @@
+---
+- hosts: bf
+  tasks:
+    -  win_copy:
+         src: \\nas24\tech\MB2017AR\
+         dest: c:\MB2017AR
+         remote_src: yes
+
+    -  win_copy:
+         src: \\nas24\tech\MB2017AR\FK2017AR.lnk
+         dest: c:\Users\Public\Desktop\
+         remote_src: yes

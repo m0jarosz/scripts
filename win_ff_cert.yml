@@ -1,0 +1,10 @@
+---
+- name: Install Firefox certificates
+  hosts: windows
+  tasks:
+    -  win_copy:
+         src: /home/mjarosz/ff_cert/
+         dest: c:\Windows\Temp\ff_cert
+
+    - name: Run script
+      win_command: c:\Windows\Temp\ff_cert\ImportCAtoFirefox.bat
