@@ -2,5 +2,5 @@
 - hosts: bf
   tasks:
     - name: run echo command
-      command: /bin/echo hello sammy
+      command: /bin/echo hello samm
 
