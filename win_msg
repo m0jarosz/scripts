@@ -1,0 +1,2 @@
+#!/bin/bash
+ansible-playbook ~/ansible/win_msg.yml --extra-vars "deployment_start_time=2018-09-29_8:30"

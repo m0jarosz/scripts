@@ -1,0 +1,9 @@
+---
+- name: Cisco router backup
+  hosts: pseap
+  gather_facts: no
+  connection: local
+  tasks:
+    - ios_config:
+        backup: yes
+      ignore_errors: yes

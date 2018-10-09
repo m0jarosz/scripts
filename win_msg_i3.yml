@@ -1,0 +1,7 @@
+---
+- name: Diaplay message
+  hosts: I3
+  tasks:
+    - win_msg:
+        display_seconds: 5
+        msg: Ten komunikat zgasnie za 5 sekund

@@ -1,0 +1,14 @@
+---
+- name: Install Apache from an MSI 
+  hosts: windows
+ 
+  tasks:
+    - name: Download the FirefoxESR installer
+      win_get_url:
+        url: 'http://hicap.frontmotion.com.s3.amazonaws.com/Firefox/FirefoxESR-60.2.0/FirefoxESR-60.2.0-pl.msi'
+        dest: 'C:\Users\Administrator\Downloads\FirefoxESR.msi'
+
+    - name: Install MSI
+      win_package: 
+        path: 'C:\Users\Administrator\Downloads\FirefoxESR.msi'
+        state: present

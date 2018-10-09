@@ -1,0 +1,9 @@
+---
+- name: Cisco backup
+  hosts: cisco
+  gather_facts: no
+  connection: local
+  tasks:
+    - ios_config:
+        backup: yes
+      ignore_errors: yes

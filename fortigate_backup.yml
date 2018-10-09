@@ -1,0 +1,17 @@
+---
+- hosts: fortigate
+  gather_facts: true
+  connection: local
+  name: FortiGate backup playbook
+
+  tasks:
+    - name: Create directory
+      file:
+        path: "{{ backup_location }}"
+        state: directory
+        owner: root
+        group: root
+        mode: 0700
+    - name: Retreive config
+      command: sshpass -p "{{ ansible_password }}" scp "{{ ansible_user }}"@"{{ ansible_fg_host }}":fgt-config "{{ backup_location }}"/"{{inventory_hostname}}"-"{{ ansible_fg_host }}".conf
+      ignore_errors: yes

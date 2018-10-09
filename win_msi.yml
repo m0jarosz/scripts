@@ -1,0 +1,7 @@
+---
+- name: Install MSI
+  hosts: bf
+  win_package: 
+    path: \\nas24\tech\FirefoxESR-60.2.0-pl.msi
+    wait: yes
+    state: present
