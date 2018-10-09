@@ -13,5 +13,5 @@
         group: root
         mode: 0700
     - name: Retreive config
-      command: sshpass -p "{{ ansible_password }}" scp "{{ ansible_user }}"@"{{ ansible_ssh_host }}":startup.cfg "{{ backup_location }}"/"{{inventory_hostname}}"-"{{ ansible_ssh_host }}".conf
+      command: sshpass -p "{{ ansible_password }}" sftp -q "{{ ansible_user }}"@"{{ ansible_ssh_host }}":startup.cfg "{{ backup_location }}"/"{{inventory_hostname}}"-"{{ ansible_ssh_host }}".conf
       ignore_errors: yes
