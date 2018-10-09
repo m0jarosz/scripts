@@ -5,7 +5,7 @@
   name: HPE backup playbook
 
   tasks:
-    - name: Create directory
+    - name: Test directory
       file:
         path: "{{ backup_location }}"
         state: directory
