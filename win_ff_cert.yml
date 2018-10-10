@@ -2,7 +2,12 @@
 - name: Install Firefox certificates
   hosts: windows
   tasks:
-    -  win_copy:
+    - name: Certyfikaty z Windows
+      win_copy:
+         src: /home/mjarosz/ff_cert/Enableroot.js
+         dest: C:\Program Files\Mozilla Firefox\Defaults\Pref\
+    - name: Dodanie certyfikatów
+      win_copy:
          src: /home/mjarosz/ff_cert/
          dest: c:\Windows\Temp\ff_cert
 
