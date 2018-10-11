@@ -1,0 +1,11 @@
+---
+- hosts: l00-sw01
+  connection: local
+  tasks:
+    - aruba_command:
+        commands:
+          - show interfaces
+        wait_for:
+          - result[0] contains A1
+
+

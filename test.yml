@@ -1,6 +1,7 @@
 ---
-- hosts: bf
+- hosts: oracle1
   tasks:
     - name: run echo command
       command: /bin/echo hello samm
-
+      register: out
+    - debug: var=out.stdout_lines
