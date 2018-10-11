@@ -2,6 +2,6 @@
 - hosts: oracle1
   tasks:
     - name: run echo command
-      command: /bin/echo hello samm
+      command: ls 
       register: out
     - debug: var=out.stdout_lines
