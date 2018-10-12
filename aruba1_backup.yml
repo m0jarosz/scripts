@@ -1,0 +1,9 @@
+---
+- name: Aruba backup
+  hosts: aruba1
+  gather_facts: no
+  connection: local
+  tasks:
+    - aruba_config:
+        backup: yes
+      ignore_errors: yes
