@@ -1,0 +1,12 @@
+---
+- hosts: oracle1
+  tasks:
+    - name: echo & loop
+      command: ls  "/{{ item }}"
+      register: out
+      loop:
+        - usr
+        - var
+
+#    - debug:
+#        var: out.output

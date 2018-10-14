@@ -1,0 +1,8 @@
+---
+- hosts: oracle1
+  tasks:
+    - name: Run ls.sh and output "ls /"
+      script: ls
+      register: out
+
+    - debug: var=out.stdout_lines
