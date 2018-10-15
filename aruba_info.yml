@@ -1,5 +1,5 @@
 ---
-- hosts: l00-sw01
+- hosts: L00-SW01
   connection: local
   tasks:
     - aruba_command:
