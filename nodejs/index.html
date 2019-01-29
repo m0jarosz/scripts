@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xml:lang="pl"
+    lang="pl"
+    dir="ltr">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<head>
+    <title>Oracle Report</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+
+<body>
+    <div style="display: none" id="init"></div>
+    <form id="chat">
+        Użytkownik: 
+        <input type="text" id="orauser" name="orauser" />
+        Hasło: 
+        <input type="password" id="orapass" name="orapass" />
+        <input type="submit" value="Wyślij" />
+    </form>
+    <script type="text/javascript" src="/jquery/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+        var isconnected;
+        var socket = io.connect();
+
+        $("form#chat").submit(function(e) {
+            e.preventDefault();
+            var enorapass =  $(this).find("#orapass").val();
+            enorapass = window.btoa(enorapass);
+            socket.emit("sendorauser", {orauser: $(this).find("#orauser").val(),orapass: enorapass}, function() {
+                $("form#chat #orauser").val("");
+                $("form#chat #orapass").val("");
+            });
+        });
+        socket.on("update messages", function(msg){
+//            var final_message = $("<p />").text(msg);
+            var final_message = msg;
+            $("#init").append(final_message);
+            if($("#init").text()==""){
+                $("#init").hide();
+            }else{
+                $("#init").show();
+            }
+        });
+    </script>
+</body>
+
+</html>
