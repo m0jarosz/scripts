@@ -1,0 +1,15 @@
+#!/bin/bash
+
+user=m0jarosz
+location=/home/mjarosz
+cp ${location}/ansible/*.yml  ${location}/scripts/
+cd ${location}/scripts
+git config --global user.name "m0jarosz"
+git config --global user.email "m0jarosz@gmail.com"
+git reset --hard origin/master
+#git pull origin master
+git add .
+git subtree add --prefix=./nodejs scripts master
+git subtree add --prefix=./abc scripts master
+git commit -m "Add existing file"
+git push -f https://$user@github.com/m0jarosz/scripts --all
