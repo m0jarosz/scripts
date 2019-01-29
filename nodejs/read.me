@@ -1,3 +1,7 @@
 npm install oracledb
 nmp install socket.io
 klient oracle z; https://serverfault.com/questions/911475/howto-install-oracle-oci8-instantclient-on-ubuntu-18-04
+sqlite3 orareport.sqlite
+    CREATE TABLE IF NOT EXISTS reports(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, sql TEXT NOT NULL, creation_date DEFAULT CURRENT_TIMESTAMP);
+    INSERT INTO reports(name,sql) VALUES('LISTUJ ZARZĄDCÓW','SELECT DISTINCT L.OPIS AS OPIS ,L.ROK AS ROK FROM DOCZ.DOCZ_LISTY2 L');
+npm install sqlite --save

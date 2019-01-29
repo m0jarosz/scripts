@@ -1,7 +1,15 @@
 var app = require('http').createServer(response);
 var fs = require('fs');
 var io = require('socket.io')(app);
+var orasql="";
 const oracledb = require('oracledb');
+const sqlite3 = require('sqlite3').verbose();
+let orareport = new sqlite3.Database('./orareport.sqlite', sqlite3.OPEN_READWRITE, (err) => {
+  if (err) {
+    console.error(err.message);
+  }
+  console.log('Connected to the orareport database.');
+});
 
 app.listen(3000);
 console.log("App running...");
@@ -25,6 +33,15 @@ function response(req, res) {
     );
 }
 
+
+//orareport.close((err) => {
+//    if (err) {
+//        console.error(err.message);
+//    }
+//    console.log('Close the sqlite3 database connection.');
+//});
+
+
 io.on("connection", function(socket){
     socket.on("sendorauser", function(sent_msg, callback){
         oracledb.getConnection(
@@ -36,8 +53,19 @@ io.on("connection", function(socket){
         function(err, connection)
         {
             if (err) { console.error(err); return; }
+
+            orareport.serialize(() => {
+                orareport.each(`SELECT id,name,sql FROM reports`, (err, row) => {
+                    if (err) {
+                        console.error(err.message);
+                    }
+                    io.sockets.emit("update messages", row.id + "\t" + row.name + "\t" + row.sql);
+                    orasql = row.sql;
+                });
+            });
             connection.execute(
-                "SELECT L.OPIS,KNT.NR_KONTA,L.ROK,L.MC,L.NR,L.DATA_WYPLATY,W.DATA,W.STATUS,W.KWOTA,W.NR_WNIOSKU,KWN.NAZWISKO1,KWN.IMIE1,KWNA.NAZWA_KRAJU,KWNA.NAZWA_MIEJ,KWNA.NR_KODU_POCZ,KWNA.NAZWA_ULICY,KWNA.NR_BUD,KWNA.NR_LOK FROM DOCZ.DOCZ_WYPLATY W LEFT JOIN DOCZ.DOCZ_LISTY2 L ON W.LISTY2_ID=L.ID LEFT JOIN KOS.OS_OSOBA KWN ON W.OSOBA_ID_WN =KWN.ID_OSOBA AND NOT KWN.ID_EWID IS NULL AND KWN.STATUS='A' LEFT JOIN KOS.KAR_ADR_OF KWNA ON KWN.ID_EWID=KWNA.ID_OS_FIZ AND KWNA.DATA_WYM IS NULL LEFT JOIN KOS.OS_KONTO KNT ON W.KONTO_BANKOWE_ID_ODB=KNT.ID_KONTO WHERE L.ROK='2019' AND L.MC='01' AND L.NR='2' ORDER BY L.OPIS,KNT.NR_KONTA",
+                orasql,
+//                "SELECT L.OPIS,KNT.NR_KONTA,L.ROK,L.MC,L.NR,L.DATA_WYPLATY,W.DATA,W.STATUS,W.KWOTA,W.NR_WNIOSKU,KWN.NAZWISKO1,KWN.IMIE1,KWNA.NAZWA_KRAJU,KWNA.NAZWA_MIEJ,KWNA.NR_KODU_POCZ,KWNA.NAZWA_ULICY,KWNA.NR_BUD,KWNA.NR_LOK FROM DOCZ.DOCZ_WYPLATY W LEFT JOIN DOCZ.DOCZ_LISTY2 L ON W.LISTY2_ID=L.ID LEFT JOIN KOS.OS_OSOBA KWN ON W.OSOBA_ID_WN =KWN.ID_OSOBA AND NOT KWN.ID_EWID IS NULL AND KWN.STATUS='A' LEFT JOIN KOS.KAR_ADR_OF KWNA ON KWN.ID_EWID=KWNA.ID_OS_FIZ AND KWNA.DATA_WYM IS NULL LEFT JOIN KOS.OS_KONTO KNT ON W.KONTO_BANKOWE_ID_ODB=KNT.ID_KONTO WHERE L.ROK='2019' AND L.MC='01' AND L.NR='2' ORDER BY L.OPIS,KNT.NR_KONTA",
 //                "SELECT DISTINCT L.OPIS AS OPIS ,L.ROK AS ROK FROM DOCZ.DOCZ_LISTY2 L",
                 function(err, result)
                 {
