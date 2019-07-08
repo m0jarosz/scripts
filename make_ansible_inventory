@@ -1,0 +1,9 @@
+#!/bin/bash -x
+
+i=1
+while [ $i -le 255 ];do
+    echo "INSERT INTO main_host(created,modified,description,name,enabled,instance_id, variables,has_active_failures,has_inventory_sources,inventory_id,ansible_facts) VALUES('2019-07-08 11:58:16.055319+00','2019-07-08 11:58:16.055319+00','','host_192.168.0.$i',true,36,'ansible_host: 192.168.0.$i',false,false,5,'{}');" >> hosts.txt
+    echo "INSERT INTO main_host(created,modified,description,name,enabled,instance_id, variables,has_active_failures,has_inventory_sources,inventory_id,ansible_facts) VALUES('2019-07-08 11:58:16.055319+00','2019-07-08 11:58:16.055319+00','','host_192.168.1.$i',true,36,'ansible_host: 192.168.1.$i',false,false,5,'{}');" >> hosts.txt
+    echo "INSERT INTO main_host(created,modified,description,name,enabled,instance_id, variables,has_active_failures,has_inventory_sources,inventory_id,ansible_facts) VALUES('2019-07-08 11:58:16.055319+00','2019-07-08 11:58:16.055319+00','','host_192.168.49.$i',true,36,'ansible_host: 192.168.49.$i',false,false,5,'{}');" >> hosts.txt
+    i=$[i+1]
+done
